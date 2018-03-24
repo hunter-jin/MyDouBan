@@ -10,7 +10,6 @@ export default class Star extends PureComponent {
   };
 
   static propTypes = {
-      // 定义 autoPlay必须是 布尔值
       value: PropTypes.string.isRequired,
   };
 
@@ -18,7 +17,7 @@ export default class Star extends PureComponent {
       const { value, width, height } = props;
       const results = [];
       let flag = true;
-      if (value == '00') {
+      if (value === '00') {
           return <Text style={styles.smallFont}>暂无评分</Text>;
       }
 
@@ -31,7 +30,7 @@ export default class Star extends PureComponent {
                       source={require('../assets/star-full.png')}
                   />
               );
-          } else if (flag && value[1] == '5') {
+          } else if (flag && value[1] === '5') {
               flag = false;
               results.push(
                   <Image

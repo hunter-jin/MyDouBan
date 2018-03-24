@@ -52,6 +52,12 @@ module.exports = {
         "no-use-before-define": [
             "off",
         ],
+        "global-require": [
+            "off",
+        ],
+        "no-plusplus": [
+            "off",
+        ],
         "import/prefer-default-export": [
             "off",
         ],
@@ -65,5 +71,8 @@ module.exports = {
         "react/default-props-match-prop-types": [
             "off"
         ],
+        "react/no-unused-prop-types": [
+            "off"
+        ]
     }
 };

@@ -7,7 +7,7 @@ import {
     FlatList,
     TouchableOpacity,
     Image,
-    Alert
+    Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { createAction, NavigationActions } from '../utils';
@@ -28,11 +28,15 @@ const ListItem = props => {
             </View>
             <View style={styles.listItemContent}>
                 <Text style={styles.title}>{item.title}</Text>
-                <View style={{marginTop:3,marginBottom:3}}>
+                <View style={{ marginTop: 3, marginBottom: 3 }}>
                     <Star value={item.rating.stars} />
                 </View>
-                <Text style={styles.smallFont}>导演: {item.directors.map(director => director.name).join('/')}</Text>
-                <Text style={styles.smallFont}>导演: {item.casts.map(cast => cast.name).join('/')}</Text>
+                <Text style={styles.smallFont}>
+          导演: {item.directors.map(director => director.name).join('/')}
+                </Text>
+                <Text style={styles.smallFont}>
+          导演: {item.casts.map(cast => cast.name).join('/')}
+                </Text>
                 <Text style={styles.normalFont}>{item.collect_count}人看过</Text>
             </View>
             <View style={styles.listItemBuy}>
@@ -65,9 +69,9 @@ export default class InTheaterList extends Component {
   };
 
   handleBuy = id => {
-    console.log(`buy:${id}`);
-    Alert.alert('感谢您的支持！');
-  }
+      console.log(`buy:${id}`);
+      Alert.alert('感谢您的支持！');
+  };
 
   keyExtractor = (item, index) => item.id;
 
@@ -126,14 +130,14 @@ const styles = StyleSheet.create({
     },
     listItemContent: {
         flex: 2,
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
     },
     listItemBuy: {
         flex: 0,
     },
     btnBuy: {
         width: 50,
-        height: 25, 
+        height: 25,
         marginLeft: 25,
         justifyContent: 'center',
         alignItems: 'center',
@@ -152,10 +156,10 @@ const styles = StyleSheet.create({
     smallFont: {
         lineHeight: 20,
         color: '#A6A6A6',
-        fontSize: 12
+        fontSize: 12,
     },
     normalFont: {
-        lineHeight: 20, 
-        fontSize: 13
-    }
+        lineHeight: 20,
+        fontSize: 13,
+    },
 });
