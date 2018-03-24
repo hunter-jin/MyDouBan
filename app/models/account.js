@@ -5,9 +5,9 @@ export default {
     namespace: 'account',
     state: {
         login: false,
-        loading: true,
+        loading: false,
         fetching: false,
-        token: ''
+        token: '',
     },
 
     effects: {
@@ -33,7 +33,8 @@ export default {
     //     yield call(Storage.set, 'login', false);
     //     yield put(createAction('updateState')({ login: false }));
     // },
-        *testClick({ payload }, { call, put }) {
+        *login({ payload }, { call, put }) {
+            yield put(createAction('updateLoading')(true));
             const result = yield call(authService.login, {
                 tenantCode: '010',
                 userCode: 'HXZ001',
@@ -44,13 +45,17 @@ export default {
                 console.log('result:', result);
                 yield put(createAction('updateState')(result));
             }
+            yield put(createAction('updateLoading')(false));
         },
     },
 
     reducers: {
+        updateLoading(state, { payload }) {
+            return { ...state, loading: payload };
+        },
         updateState(state, { payload }) {
             return { ...state, ...payload };
-        }
+        },
     },
 
     subscriptions: {

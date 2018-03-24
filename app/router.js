@@ -1,13 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-    BackHandler,
-    Animated,
-    Easing,
-    View,
-    Text,
-    StyleSheet,
-    Button,
-} from 'react-native';
+import { BackHandler } from 'react-native';
 import {
     StackNavigator,
     TabNavigator,
@@ -24,163 +16,103 @@ import { connect } from 'react-redux';
 import { createAction } from './utils';
 
 // import Loading from './containers/Loading'
-// import Login from './containers/Login'
-// import Home from './containers/Home'
-// import Account from './containers/Account'
-// import Detail from './containers/Detail'
+import Login from './containers/Login';
+import Home from './containers/Home';
+import Account from './containers/Account';
+import Detail from './containers/Detail';
 
-// const HomeNavigator = TabNavigator(
-//   {
-//     Home: { screen: Home },
-//     Account: { screen: Account },
-//   },
-//   {
-//     tabBarComponent: TabBarBottom,
-//     tabBarPosition: 'bottom',
-//     swipeEnabled: false,
-//     animationEnabled: false,
-//     lazyLoad: false,
-//   }
-// )
+const HomeNavigator = TabNavigator({
+    Home: {
+        screen: Home,
+    },
+    Account: {
+        screen: Account,
+    },
+});
 
-// const MainNavigator = StackNavigator(
-//   {
-//     HomeNavigator: { screen: HomeNavigator },
-//     Detail: { screen: Detail },
-//   },
-//   {
-//     headerMode: 'float',
-//   }
-// )
+const MainNavigator = StackNavigator(
+    {
+        HomeNavigator: { screen: HomeNavigator },
+        Detail: { screen: Detail },
+    },
+    {
+        headerMode: 'float',
+    }
+);
 
-// const AppNavigator = StackNavigator(
-//   {
-//     Main: { screen: MainNavigator },
-//     Login: { screen: Login },
-//   },
-//   {
-//     headerMode: 'none',
-//     mode: 'modal',
-//     navigationOptions: {
-//       gesturesEnabled: false,
-//     },
-//     transitionConfig: () => ({
-//       transitionSpec: {
-//         duration: 300,
-//         easing: Easing.out(Easing.poly(4)),
-//         timing: Animated.timing,
-//       },
-//       screenInterpolator: sceneProps => {
-//         const { layout, position, scene } = sceneProps
-//         const { index } = scene
+const AppNavigator = StackNavigator(
+    {
+        Main: { screen: MainNavigator },
+        Login: { screen: Login },
+    },
+    {
+        headerMode: 'none',
+        mode: 'modal',
+        navigationOptions: {
+            gesturesEnabled: false,
+        },
+    }
+);
 
-//         const height = layout.initHeight
-//         const translateY = position.interpolate({
-//           inputRange: [index - 1, index, index + 1],
-//           outputRange: [height, 0, 0],
-//         })
+function getCurrentScreen(navigationState) {
+    if (!navigationState) {
+        return null;
+    }
+    const route = navigationState.routes[navigationState.index];
+    if (route.routes) {
+        return getCurrentScreen(route);
+    }
+    return route.routeName;
+}
 
-//         const opacity = position.interpolate({
-//           inputRange: [index - 1, index - 0.99, index],
-//           outputRange: [0, 1, 1],
-//         })
-
-//         return { opacity, transform: [{ translateY }] }
-//       },
-//     }),
-//   }
-// )
-
-// function getCurrentScreen(navigationState) {
-//   if (!navigationState) {
-//     return null
-//   }
-//   const route = navigationState.routes[navigationState.index]
-//   if (route.routes) {
-//     return getCurrentScreen(route)
-//   }
-//   return route.routeName
-// }
-
-// export const routerMiddleware = createReactNavigationReduxMiddleware(
-//     'root',
-//     state => state.router
-// );
-// const addListener = createReduxBoundAddListener('root');
+export const routerMiddleware = createReactNavigationReduxMiddleware(
+    'root',
+    state => state.router
+);
+const addListener = createReduxBoundAddListener('root');
 
 @connect(({ account, router }) => ({ account, router }))
 class Router extends PureComponent {
     componentWillMount() {
-    // BackHandler.addEventListener('hardwareBackPress', this.backHandle)
+        BackHandler.addEventListener('hardwareBackPress', this.backHandle);
     }
 
     componentDidMount() {
-    // initializeListeners('root', this.props.router)
+        initializeListeners('root', this.props.router);
     }
 
     componentWillUnmount() {
-    // BackHandler.removeEventListener('hardwareBackPress', this.backHandle)
+        BackHandler.removeEventListener('hardwareBackPress', this.backHandle);
     }
 
-  //   backHandle = () => {
-  //     const currentScreen = getCurrentScreen(this.props.router)
-  //     if (currentScreen === 'Login') {
-  //       return true
-  //     }
-  //     if (currentScreen !== 'Home') {
-  //       this.props.dispatch(NavigationActions.back())
-  //       return true
-  //     }
-  //     return false
-  //   }
-
-  handlePress = () => {
-      const { dispatch, account, router } = this.props;
-      console.log('hhh', createAction('account/testClick')('Tom'), account);
-      dispatch(createAction('account/testClick')('Tom'));
+  backHandle = () => {
+      const currentScreen = getCurrentScreen(this.props.router);
+      if (currentScreen === 'Login') {
+          return true;
+      }
+      if (currentScreen !== 'Home') {
+          this.props.dispatch(NavigationActions.back());
+          return true;
+      }
+      return false;
   };
 
   render() {
-      const { dispatch, account, router } = this.props;
+      const { dispatch, router } = this.props;
       // if (app.loading) return <Loading />
 
-      //   const navigation = addNavigationHelpers({
-      //       dispatch,
-      //       state: router,
-      //       addListener,
-      //   });
-      // return <AppNavigator navigation={navigation} />;
-      return (
-          <View style={styles.container}>
-              <Text>react native + dva</Text>
-              <Text>{ account.token }</Text>
-              <Button title="hello" onPress={this.handlePress} />
-          </View>
-      );
+      const navigation = addNavigationHelpers({
+          dispatch,
+          state: router,
+          addListener,
+      });
+
+      return <AppNavigator navigation={navigation} />;
   }
 }
 
-// export function routerReducer(state, action = {}) {
-//     return AppNavigator.router.getStateForAction(action, state);
-// }
+export function routerReducer(state, action = {}) {
+    return AppNavigator.router.getStateForAction(action, state);
+}
 
 export default Router;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-});

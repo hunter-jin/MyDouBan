@@ -49,6 +49,9 @@ module.exports = {
         "no-underscore-dangle": [
             "off"
         ],
+        "no-use-before-define": [
+            "off"
+        ],
         "react/prop-types": [
             "off"
         ],

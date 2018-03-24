@@ -3,7 +3,7 @@ import dva from './utils/dva';
 import Router, { routerMiddleware } from './router';
 
 import accountModel from './models/account';
-// import routerModel from './models/router';
+import routerModel from './models/router';
 
 console.ignoredYellowBox = [
     'Warning: componentWillMount is deprecated',
@@ -13,8 +13,8 @@ console.ignoredYellowBox = [
 
 const app = dva({
     initialState: {},
-    models: [accountModel],
-    // onAction: [routerMiddleware],
+    models: [accountModel, routerModel],
+    onAction: [routerMiddleware],
     onError(e) {
         console.log('onError', e);
     },

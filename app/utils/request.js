@@ -63,9 +63,8 @@ const request = (url, options) => {
         .then(result => {
             if (result.status >= 200 && result.status < 300) {
                 return Promise.resolve(result);
-            } 
+            }
             return Promise.resolve(handleError(result));
-      
         })
         .catch(e => {
             Alert.alert('出错啦~', e.message);
