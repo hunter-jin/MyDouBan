@@ -8,12 +8,9 @@ export default class Detail extends Component {
     }
 
     render() {
-        const { navigation } = this.props;
-        const { params } = navigation.state;
-
         return (
             <View style={styles.container}>
-                <Text>详情:{params.id}</Text>
+                <Text>即将上映</Text>
             </View>
         );
     }

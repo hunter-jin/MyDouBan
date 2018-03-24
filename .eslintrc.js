@@ -47,17 +47,23 @@ module.exports = {
             { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
         ],
         "no-underscore-dangle": [
-            "off"
+            "off",
         ],
         "no-use-before-define": [
-            "off"
+            "off",
+        ],
+        "import/prefer-default-export": [
+            "off",
         ],
         "react/prop-types": [
-            "off"
+            "off",
         ],
         "react/jsx-filename-extension": [
             "warn", 
             { "extensions": [".js"] }
+        ],
+        "react/default-props-match-prop-types": [
+            "off"
         ],
     }
 };

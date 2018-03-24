@@ -1,9 +1,9 @@
 import { Alert } from 'react-native';
 
-const _header = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json;charset=UTF-8',
-};
+// const _header = {
+//     Accept: 'application/json',
+//     'Content-Type': 'application/json;charset=UTF-8',
+// };
 
 const codeMessage = {
     200: '服务器成功返回请求的数据',
@@ -27,6 +27,8 @@ function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response;
     }
+
+    console.log(response);
     const errortext = codeMessage[response.status] || response.statusText;
     console.log(errortext);
 
@@ -49,7 +51,7 @@ const request = (url, options) => {
     const newOptions = { ...defaultOptions, ...options };
 
     newOptions.headers = {
-        ..._header,
+    // ..._header,
         ...newOptions.headers,
     };
 
@@ -57,18 +59,20 @@ const request = (url, options) => {
         newOptions.body = JSON.stringify(newOptions.body);
     }
 
-    return fetch(url, newOptions)
-        .then(checkStatus)
-        .then(response => response.json())
-        .then(result => {
-            if (result.status >= 200 && result.status < 300) {
-                return Promise.resolve(result);
-            }
-            return Promise.resolve(handleError(result));
-        })
-        .catch(e => {
-            Alert.alert('出错啦~', e.message);
-        });
+    return (
+        fetch(url, newOptions)
+            .then(checkStatus)
+            .then(response => response.json())
+        // .then(result => {
+        //     if (result.status >= 200 && result.status < 300) {
+        //         return Promise.resolve(result);
+        //     }
+        //     return Promise.resolve(handleError(result));
+        // })
+            .catch(e => {
+                Alert.alert('出错啦~', e.message);
+            })
+    );
 };
 
 export default request;

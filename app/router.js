@@ -13,22 +13,64 @@ import {
     createReactNavigationReduxMiddleware,
 } from 'react-navigation-redux-helpers';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { createAction } from './utils';
 
 // import Loading from './containers/Loading'
 import Login from './containers/Login';
-import Home from './containers/Home';
-import Account from './containers/Account';
+import HotList from './containers/HotList';
+import Seek from './containers/Seek';
+import My from './containers/My';
 import Detail from './containers/Detail';
 
-const HomeNavigator = TabNavigator({
-    Home: {
-        screen: Home,
+const HomeNavigator = TabNavigator(
+    {
+        HotList: {
+            screen: HotList,
+            navigationOptions: {
+                tabBarLabel: '热映',
+                tabBarIcon: ({ tintColor }) => (
+                    <Icon name="tv" size={20} color={tintColor} />
+                ),
+            },
+        },
+        Seek: {
+            screen: Seek,
+            navigationOptions: {
+                tabBarLabel: '找片',
+                tabBarIcon: ({ tintColor }) => (
+                    <Icon name="eye" size={20} color={tintColor} />
+                ),
+            },
+        },
+        My: {
+            screen: My,
+            navigationOptions: {
+                tabBarLabel: '我的',
+                tabBarIcon: ({ tintColor }) => (
+                    <Icon name="user" size={20} color={tintColor} />
+                ),
+            },
+        },
     },
-    Account: {
-        screen: Account,
-    },
-});
+    {
+        tabBarPosition: 'bottom',
+        tabBarOptions: {
+            activeTintColor: '#494949',
+            inactiveTintColor: '#999999',
+            labelStyle: {
+                fontSize: 12,
+                marginBottom: 5,
+            },
+            style: {
+                borderTopWidth: 1,
+                borderTopColor: '#c3c3c3',
+                height: 50,
+                backgroundColor: '#fafafa',
+            },
+        },
+    }
+);
 
 const MainNavigator = StackNavigator(
     {
@@ -36,7 +78,8 @@ const MainNavigator = StackNavigator(
         Detail: { screen: Detail },
     },
     {
-        headerMode: 'float',
+    // 导航栏显示模式, screen: 有渐变透明效果, float: 无透明效果, none: 隐藏导航栏
+        headerMode: 'screen',
     }
 );
 

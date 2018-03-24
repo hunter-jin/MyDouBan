@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-export default class Account extends Component {
+export default class My extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -10,7 +10,7 @@ export default class Account extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Account</Text>
+                <Text>我的</Text>
             </View>
         );
     }
